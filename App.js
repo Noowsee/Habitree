@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import MainScreen from "./screens/MainScreen";
+import AddHabitScreen from "./screens/AddHabitScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,11 @@ export default function App() {
           name="Main"
           component={MainScreen}
           options={{ title: "Habits" }}
+        />
+        <Stack.Screen
+          name="AddHabit"
+          component={AddHabitScreen}
+          options={{ title: "New Habit" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
