@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, FlatList, Button } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Button,
+  ScrollView,
+} from "react-native";
+import HabitGrid from "../components/HabitGrid";
 
 export default function MainScreen({ navigation }) {
   const [habits, setHabits] = useState([]);
@@ -11,16 +19,31 @@ export default function MainScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text styles={styles.title}>Your Habits</Text>
-      <FlatList
-        data={habits}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={[styles.habitItem, { borderLeftColor: item.color }]}>
-            <Text style={styles.habitText}>{item.name}</Text>
-          </View>
+      <ScrollView>
+        {habits.length === 0 ? (
+          <Text>No habits listed.</Text>
+        ) : (
+          habits.map((habit, index) => (
+            <View key={habit.id} style={styles.habitBlock}>
+              <Text style={styles.habitText}>{habit.name}</Text>
+              <HabitGrid
+                habit={habit}
+                onToggleDate={(date) => {
+                  setHabits((prev) =>
+                    prev.map((h, i) => {
+                      if (i !== index) return h;
+                      const dates = h.dates.includes(date)
+                        ? h.dates.filter((d) => d !== date)
+                        : [...h.dates, date];
+                      return { ...h, dates };
+                    })
+                  );
+                }}
+              />
+            </View>
+          ))
         )}
-        ListEmptyComponent={<Text>No habits listed.</Text>}
-      />
+      </ScrollView>
 
       <Button
         title="Add new habit"
@@ -50,5 +73,8 @@ const styles = StyleSheet.create({
   },
   habitText: {
     forntSize: 18,
+  },
+  habitBlock: {
+    marginBottom: 30,
   },
 });
