@@ -14,7 +14,7 @@ export default function App() {
         <Stack.Screen
           name="Welcome"
           component={WelcomeScreen}
-          options={{ title: "Welcomen" }}
+          options={{ title: "Welcome" }}
         />
         <Stack.Screen
           name="Main"
